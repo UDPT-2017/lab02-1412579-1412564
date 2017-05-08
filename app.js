@@ -28,6 +28,13 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 
+app.use(function(req,res,next) {
+   res.locals = {
+     user: req.user,
+   };
+   return next();
+});
+
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');// set up ejs for templating
 

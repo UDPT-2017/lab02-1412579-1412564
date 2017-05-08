@@ -5,7 +5,7 @@ var LocalStrategy   = require('passport-local').Strategy;
 var FacebookStrategy = require('passport-facebook').Strategy;
 
 var bcrypt = require('bcrypt-nodejs');
-
+var configAuth = require('./auth');
 const nodemailer = require('nodemailer');
 
 
@@ -31,10 +31,10 @@ module.exports = function(passport,pool) {
     passport.use(new FacebookStrategy({
 
         // pull in our app id and secret from our auth.js file
-        clientID        : '310019682781511',
-        clientSecret    : '5406f26498d9c2cdb251e3dfa5c7b7c0',
-        callbackURL     : 'http://localhost:3000/auth/facebook/callback',
-        profileFields   : ['id', 'emails', 'name','profileUrl','photos'] //get field recall
+        clientID        : configAuth.facebookAuth.clientID,
+        clientSecret    : configAuth.facebookAuth.clientSecret,
+        callbackURL     : configAuth.facebookAuth.callbackURL,
+        profileFields   : ['id', 'emails', 'name','profileUrl','photos','phone'] //get field recall
 
     },
 
@@ -52,21 +52,7 @@ module.exports = function(passport,pool) {
 
                 // if the user is found, then log them in
                 if (user.rows.length > 0) {
-                    let mailOptions = {
-                        from: '"Mini SNS 👻 Push Email Login" <iuemanhngatxiu@gmail.com>', // sender address
-                        to: user.rows[0].email, // list of receivers
-                        subject: 'Hello ✔, someone logged your account!!!', // Subject line
-                        text: 'Someone logged your account!!!', // plain text body
-                        html: '<b>Hello world - Ahihi đồ ngốc!!</b>' // html body
-                    };
-
-                    // send mail with defined transport object
-                    transporter.sendMail(mailOptions, (error, info) => {
-                        if (error) {
-                            return console.log(error);
-                        }
-                        console.log('Message %s sent: %s', info.messageId, info.response);
-                    });
+                    
                     return done(null, user.rows[0]); // user found, return that user
                 } else {
 
@@ -80,7 +66,7 @@ module.exports = function(passport,pool) {
                     };
                     console.log(newFacebooker);
                     // if there is no user found with that facebook id, create them
-                    var insertQuery = "insert into users(username,password,role,email,fullname,idfacebook,token,picture,url) values(null,null,null,'" +
+                    var insertQuery = "insert into users(email,password,role,email,fullname,idfacebook,token,picture,url) values(null,null,null,'" +
                     newFacebooker.email +"','"+
                     newFacebooker.fullname  +"','"+ 
                     newFacebooker.id +"','"+ 
@@ -108,28 +94,28 @@ module.exports = function(passport,pool) {
         'local-signup',
         new LocalStrategy({
 
-            usernameField : 'username',
+            emailField : 'email',
             passwordField : 'password',
             passReqToCallback : true // allows us to pass back the entire request to the callback
         },
-        function(req, username, password, done) {
+        function(req, email, password, done) {
             //check user input
-            pool.query("SELECT * FROM users WHERE username = '" + username + "'", function(err, rows) {
+            pool.query("SELECT * FROM user WHERE email = '" + email + "'", function(err, rows) {
                 if (err) //error
                     return done(err);
                 if (rows.rows.length > 0) { //if user existed
-                    return done(null, false, req.flash('signupMessage', 'Username is already taken.'));
+                    return done(null, false, req.flash('signupMessage', 'email is already taken.'));
                 } 
                 else {
-                    // if there is no user with that username
+                    // if there is no user with that email
                     // create the user
                     var newUser = {
-                        username: username,
-                        fullname: username,
+                        email: email,
+                        fullname: email,
                         password: bcrypt.hashSync(password, null, null)  // use the generateHash function in our user model
                     };
                     //console.log(newUser);
-                    var insertQuery = "insert into users(username,password,role,email,fullname,idfacebook,token,picture,url) values('" + newUser.username +"','"+ newUser.password +"',null,null,'" + newUser.fullname + "',null,null,null,null) RETURNING id";
+                    var insertQuery = "insert into users(email,password,role,email,fullname,idfacebook,token,picture,url) values('" + newUser.email +"','"+ newUser.password +"',null,null,'" + newUser.fullname + "',null,null,null,null) RETURNING id";
                     pool.query(insertQuery,function(err, rows) {
                          if (err)
                             return done(err);
@@ -146,41 +132,27 @@ module.exports = function(passport,pool) {
     passport.use(
         'local-login',
         new LocalStrategy({
-            // by default, local strategy uses username and password, we will override with email
-            usernameField : 'username',
+            // by default, local strategy uses email and password, we will override with email
+            emailField : 'email',
             passwordField : 'password',
             passReqToCallback : true // allows us to pass back the entire request to the callback
         },
-        function(req, username, password, done) { // callback with email and password from our form
-            pool.query("SELECT * FROM users WHERE username = '" + username + "'", function(err, rows){
+        function(req, email, password, done) { // callback with email and password from our form
+            pool.query("SELECT * FROM user WHERE email = '" + email + "'", function(err, rows){
                 // console.log(rows.rows[0].password);
                 // console.log(bcrypt.hashSync(123456, null, null));
                 // console.log(rows.rows.length);
                 if (err)
                     return done(err);
                 if (rows.rows.length == 0) {
-                    return done(null, false, req.flash('loginMessage', 'Please check your Username and Password.!!!')); // req.flash is the way to set flashdata using connect-flash
+                    return done(null, false, req.flash('loginMessage', 'Please check your email and Password.!!!')); // req.flash is the way to set flashdata using connect-flash
                 }
 
                 // if the user is found but the password is wrong
                 if (!bcrypt.compareSync(password, rows.rows[0].password))
-                    return done(null, false, req.flash('loginMessage', 'Please check your Username and Password.!!!')); // create the loginMessage and save it to session as flashdata
+                    return done(null, false, req.flash('loginMessage', 'Please check your email and Password.!!!')); // create the loginMessage and save it to session as flashdata
 
-                let mailOptions = {
-                    from: '"Mini SNS 👻 Push Email Login" <iuemanhngatxiu@gmail.com>', // sender address
-                    to: rows.rows[0].email, // list of receivers
-                    subject: 'Hello ✔, someone logged your account!!!', // Subject line
-                    text: 'Someone logged your account!!!', // plain text body
-                    html: '<b>Hello world - Ahihi đồ ngốc!!</b>' // html body
-                };
-
-                // send mail with defined transport object
-                transporter.sendMail(mailOptions, (error, info) => {
-                    if (error) {
-                        return console.log(error);
-                    }
-                    console.log('Message %s sent: %s', info.messageId, info.response);
-                });
+                
                 // all is well, return successful user
                 return done(null, rows.rows[0]);
             });
