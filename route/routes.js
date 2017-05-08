@@ -33,27 +33,50 @@ module.exports = function(app, passport,pool) {
 	});
 
 	app.get('/', function(req, res) {
-		pool.connect(function (err) {
-		  if (err) return console.log(err);
+		// pool.connect(function (err) {
+		//   if (err) return console.log(err);
 
-			  // execute a query on our database
-			  pool.query('SELECT * FROM post,users where post.iduser = users.id ORDER BY idpost DESC OFFSET 0 LIMIT 2', function (err, result) {
-			    if (err) {
-			    	res.end();
-			    	return console.log(err);
-			    }
-			    // disconnect the client
-			    res.render('index.ejs',{
-					user : req.user,
-					list : result ,
-					nav: 1
-				}); 
-			});
+		// 	  // execute a query on our database
+		// 	  pool.query('SELECT * FROM post,users where post.iduser = users.id ORDER BY idpost DESC OFFSET 0 LIMIT 2', function (err, result) {
+		// 	    if (err) {
+		// 	    	res.end();
+		// 	    	return console.log(err);
+		// 	    }
+		// 	    // disconnect the client
+		// 	    res.render('index.ejs',{
+		// 			user : req.user,
+		// 			list : result ,
+		// 			nav: 1
+		// 		}); 
+		// 	});
 
 			
-		});
+		// });
+		res.render('index');
 	});
 
+	app.get('/login', function(req, res) {
+		// pool.connect(function (err) {
+		//   if (err) return console.log(err);
+
+		// 	  // execute a query on our database
+		// 	  pool.query('SELECT * FROM post,users where post.iduser = users.id ORDER BY idpost DESC OFFSET 0 LIMIT 2', function (err, result) {
+		// 	    if (err) {
+		// 	    	res.end();
+		// 	    	return console.log(err);
+		// 	    }
+		// 	    // disconnect the client
+		// 	    res.render('index.ejs',{
+		// 			user : req.user,
+		// 			list : result ,
+		// 			nav: 1
+		// 		}); 
+		// 	});
+
+			
+		// });
+		res.render('login');
+	});
 	
 };
 

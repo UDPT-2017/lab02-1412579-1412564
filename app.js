@@ -6,7 +6,7 @@ var session  = require('express-session');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var morgan = require('morgan');
-
+var exphbs = require('express-handlebars')
 var app      = express();
 var port     = process.env.PORT || 3000;
 
@@ -28,7 +28,8 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 
-app.set('view engine', 'ejs'); // set up ejs for templating
+app.engine('handlebars', exphbs({defaultLayout: 'main'}));
+app.set('view engine', 'handlebars');// set up ejs for templating
 
 // required for passport
 app.use(session({
