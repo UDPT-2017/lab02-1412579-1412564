@@ -19,18 +19,9 @@ module.exports = function(app, passport,pool) {
 	var fs = require('fs');
 	var dateFormat = require('dateformat');
 	var now = new Date();
-	const nodemailer = require('nodemailer');
+
 	var slug = require('slug');
 
-
-
-	let transporter = nodemailer.createTransport({
-	    service: 'gmail',
-	    auth: {
-	        user: 'iuemanhngatxiu@gmail.com',
-	        pass: '1345314bommy'
-	    }
-	});
 
 	app.get('/', function(req, res) {
 		res.render('index'); // load the index.ejs file
@@ -52,33 +43,43 @@ module.exports = function(app, passport,pool) {
 	// LOGIN ===============================
 	// =====================================
 	// show the login form
-	app.get('/login', function(req, res) {
-
+	app.get('/login', Logged, function(req, res) {
+		console.log(req.flash('loginMessage'));
 		// render the page and pass in any flash data if it exists
 		res.render('login', { message: req.flash('loginMessage') });
 	});
 
 	// process the login form
 	app.post('/login', passport.authenticate('local-login', {
-		successRedirect : '/mailbox', // redirect to the secure profile section
-		failureRedirect : '/login', // redirect back to the signup page if there is an error
-		failureFlash : true // allow flash messages
-	}));
+            successRedirect : '/mailbox', // redirect to homepage if user logged
+            failureRedirect : '/login', // redirect back to the loggin page if fail
+            failureFlash : true // allow flash messages
+		}),
+        function(req, res) {
+            //console.log("hello");
+            //remember me
+            if (req.body.remember) {
+              req.session.cookie.maxAge = 1000 * 60 * 3;
+            } else {
+              req.session.cookie.expires = false;
+            }
+        res.redirect('/'); //redirect to Home
+    });
 
 	// =====================================
 	// SIGNUP ==============================
 	// =====================================
 	// show the signup form
-	app.get('/signup', function(req, res) {
-
+	app.get('/sign-up', function(req, res) {
+		console.log(req.flash('signupMessage'));
 		// render the page and pass in any flash data if it exists
-		res.render('signup', { message: req.flash('signupMessage') });
+		res.render('signup');
 	});
 
 	// process the signup form
-	app.post('/signup', passport.authenticate('local-signup', {
+	app.post('/sign-up', passport.authenticate('local-signup', {
 		successRedirect : '/mailbox', // redirect to the secure profile section
-		failureRedirect : '/signup', // redirect back to the signup page if there is an error
+		failureRedirect : '/sign-up', // redirect back to the signup page if there is an error
 		failureFlash : true // allow flash messages
 	}));
 
@@ -98,7 +99,7 @@ module.exports = function(app, passport,pool) {
 	app.get('/auth/facebook/callback',
 		passport.authenticate('facebook', {
 			successRedirect : '/mailbox',
-			failureRedirect : '/'
+			failureRedirect : '/login'
 		}));
 
 	// =====================================

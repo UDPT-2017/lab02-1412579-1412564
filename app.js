@@ -1,23 +1,28 @@
 // server.js
 
 // setup 
+// setup 
 var express  = require('express');
 var session  = require('express-session');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var morgan = require('morgan');
 var exphbs = require('express-handlebars')
+
+
 var app      = express();
 var port     = process.env.PORT || 3000;
 
 var passport = require('passport');
 var flash    = require('connect-flash');
 
-
 const pool = require('./model/pg');
 
 require('./config/passport')(passport,pool);
 
+var hbs = exphbs.create({ defaultLayout: 'main' });
+app.engine('handlebars', hbs.engine);
+app.set('view engine', 'handlebars');// set up ejs for templating
 
 app.use(express.static('public'));
 //set up application
@@ -28,8 +33,6 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 
-app.engine('handlebars', exphbs({defaultLayout: 'main'}));
-app.set('view engine', 'handlebars');// set up ejs for templating
 
 // required for passport
 app.use(session({
@@ -40,7 +43,6 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 app.use(flash()); // session flash message
-
 
 
 // routes ======================================================================

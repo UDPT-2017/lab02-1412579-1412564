@@ -5,17 +5,20 @@
 		<div class="wrap">
 			<div class="content-main">
 				<div class="w3ls-subscribe w3ls-subscribe1">
-					<form action="#" method="post">
+					<form action="/sign-up" method="post">
 						<input type="email" name="email" id="email" placeholder="Nhập email của bạn" required />
 						<input type="password" name="password" id="password" placeholder="Nhập password của bạn" required />
 						<input type="text" name="fulname" id="fullname" placeholder="Nhập tên của bạn" required />
 						<input type="text" name="phone" id="phone" placeholder="Nhập số điện thoại của bạn" required />
 						<input type="submit" value="Đăng ký">
 					</form>
+					{{#if message}}
+					    <div class="alert alert-danger">{{message}}</div>
+					{{/if}}
 				</div>
 			</div>
 			<div class="wthree_footer_copy">
-					<a href="/login" ><i class="fa fa-user-plus fa-fw"></i> <span class="network-name">Nếu có tài khoản, đăng nhập ngay !!!</span></a>
+					<a href="/login" ><i class="fa fa-sign-in fa-fw"></i> <span class="network-name">Nếu có tài khoản, đăng nhập ngay !!!</span></a>
 			</div>
 		</div>
 	</div>
