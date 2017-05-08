@@ -33,6 +33,7 @@ module.exports = function(app, passport,pool) {
 	});
 
 	app.get('/', function(req, res) {
+<<<<<<< HEAD
 		res.render('index');
 	});
 
@@ -63,17 +64,64 @@ module.exports = function(app, passport,pool) {
     });
 
     app.get('/signup', function(req, res) {
+=======
+		res.render('index'); // load the index.ejs file
+	});
+
+	app.get('/mailbox', function(req, res) {
+		res.render('mailbox'); // load the index.ejs file
+	});
+
+	app.get('/compose-email', function(req, res) {
+		res.render('compose'); // load the index.ejs file
+	});
+
+	app.get('/read-email', function(req, res) {
+		res.render('reademail'); // load the index.ejs file
+	});
+
+	// =====================================
+	// LOGIN ===============================
+	// =====================================
+	// show the login form
+	app.get('/login', function(req, res) {
+
+		// render the page and pass in any flash data if it exists
+		res.render('login', { message: req.flash('loginMessage') });
+	});
+
+	// process the login form
+	app.post('/login', passport.authenticate('local-login', {
+		successRedirect : '/mailbox', // redirect to the secure profile section
+		failureRedirect : '/login', // redirect back to the signup page if there is an error
+		failureFlash : true // allow flash messages
+	}));
+
+	// =====================================
+	// SIGNUP ==============================
+	// =====================================
+	// show the signup form
+	app.get('/signup', function(req, res) {
+
+>>>>>>> 2a9cdc08be43d789e94c812e4e0781511dd8f663
 		// render the page and pass in any flash data if it exists
 		res.render('signup', { message: req.flash('signupMessage') });
 	});
 
+<<<<<<< HEAD
 	// post signup
 	app.post('/signup', passport.authenticate('local-signup', {
 		successRedirect : '/login', // redirect to login if success,  auto login and back to home
+=======
+	// process the signup form
+	app.post('/signup', passport.authenticate('local-signup', {
+		successRedirect : '/mailbox', // redirect to the secure profile section
+>>>>>>> 2a9cdc08be43d789e94c812e4e0781511dd8f663
 		failureRedirect : '/signup', // redirect back to the signup page if there is an error
 		failureFlash : true // allow flash messages
 	}));
 
+<<<<<<< HEAD
 	app.get('/auth/facebook', passport.authenticate('facebook', { scope : 'email' }));
 
     // handle the callback after facebook has authenticated the user
@@ -85,12 +133,39 @@ module.exports = function(app, passport,pool) {
 
 
 	// Log out
+=======
+	// =====================================
+	// PROFILE SECTION =========================
+	// =====================================
+	// we will want this protected so you have to be logged in to visit
+	// we will use route middleware to verify this (the isLoggedIn function)
+
+	// =====================================
+	// FACEBOOK ROUTES =====================
+	// =====================================
+	// route for facebook authentication and login
+	app.get('/auth/facebook', passport.authenticate('facebook', { scope : 'email' }));
+
+	// handle the callback after facebook has authenticated the user
+	app.get('/auth/facebook/callback',
+		passport.authenticate('facebook', {
+			successRedirect : '/mailbox',
+			failureRedirect : '/'
+		}));
+
+	// =====================================
+	// LOGOUT ==============================
+	// =====================================
+>>>>>>> 2a9cdc08be43d789e94c812e4e0781511dd8f663
 	app.get('/logout', function(req, res) {
 		req.logout();
 		res.redirect('/');
 	});
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2a9cdc08be43d789e94c812e4e0781511dd8f663
 		// pool.connect(function (err) {
 		//   if (err) return console.log(err);
 
@@ -111,7 +186,10 @@ module.exports = function(app, passport,pool) {
 			
 		// });
 
+<<<<<<< HEAD
 	
+=======
+>>>>>>> 2a9cdc08be43d789e94c812e4e0781511dd8f663
 };
 
 // route middleware to make sure
