@@ -54,14 +54,16 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
+                {{#if user}}
                     <li>
-                        <a href="/mailbox">Mailbox</a>
+                        <a href="/mailbox/{{ user.id }}"><i class="fa fa-inbox fa-fw"></i> Mailbox</a>
+                    </li>
+                {{/if}}
+                    <li>
+                        <a href="#"><i class="fa fa-user fa-fw"></i> Người dùng</a>
                     </li>
                     <li>
-                        <a href="#">Người dùng</a>
-                    </li>
-                    <li>
-                        <a href="#">Về chúng tôi</a>
+                        <a href="#"><i class="fa fa-group fa-fw"></i> Về chúng tôi</a>
                     </li>
                 </ul>
             </div>
@@ -96,6 +98,10 @@
 <script type="text/javascript">
 $(document).ready(function() {
   $(".select2").select2();
+
+
+ $('div.alert').delay(5000).slideUp();
+
 });
 </script>
 </body>

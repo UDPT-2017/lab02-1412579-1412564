@@ -101,28 +101,7 @@ h1 {
     width: 93%;
     background: rgba(0, 0, 0, 0.66);
 }
-.w3ls-subscribe input[type="submit"] {
-	color: #000000;
-    font-size: .9em;
-    text-decoration: none;
-    padding: 1em 2em;
-    cursor: pointer;
-    background: #8BC34A;
-    text-transform: uppercase;
-    font-weight: 600;
-    text-align: center;
-    border: solid 2px #ffffff;
-    transition: 0.5s all;
-    -webkit-transition: 0.5s all;
-    -o-transition: 0.5s all;
-    -moz-transition: 0.5s all;
-    -ms-transition: 0.5s all;
-}
-.w3ls-subscribe input[type="submit"]:hover{
-	background: none;
-    border: solid 2px #FFFFFF;
-    color: #FFFFFF;
-}
+
 .w3ls-subscribe p{
 	color: #FFFFFF;
     font-size: .9em;

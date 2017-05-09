@@ -27,7 +27,7 @@ module.exports = function(app, passport,pool) {
 		res.render('index'); // load the index.ejs file
 	});
 
-	app.get('/mailbox', function(req, res) {
+	app.get('/mailbox/:id', function(req, res) {
 		res.render('mailbox'); // load the index.ejs file
 	});
 
@@ -44,18 +44,24 @@ module.exports = function(app, passport,pool) {
 	// =====================================
 	// show the login form
 	app.get('/login', Logged, function(req, res) {
-		console.log(req.flash('loginMessage'));
+		//console.log(req.flash('loginMessage'));
 		// render the page and pass in any flash data if it exists
-		res.render('login', { message: req.flash('loginMessage') });
+		res.render('login', { message: req.flash('loginMessage')[0] });
 	});
 
 	// process the login form
-	app.post('/login', passport.authenticate('local-login', {
-            successRedirect : '/mailbox', // redirect to homepage if user logged
-            failureRedirect : '/login', // redirect back to the loggin page if fail
-            failureFlash : true // allow flash messages
-		}),
-        function(req, res) {
+	app.post('/login', function(req, res, next) {
+	passport.authenticate('local-login', function(err, user, info) {
+		if (err) { return next(err); }
+		// Redirect if it fails
+		if (!user) { return res.redirect('/login'); }
+		req.logIn(user, function(err) {
+			if (err) { return next(err); }
+			// Redirect if it succeeds
+				return res.redirect('/mailbox/'+user.id);
+			});
+		})(req, res, next),
+		function(req, res) {
             //console.log("hello");
             //remember me
             if (req.body.remember) {
@@ -63,17 +69,20 @@ module.exports = function(app, passport,pool) {
             } else {
               req.session.cookie.expires = false;
             }
-        res.redirect('/'); //redirect to Home
-    });
+        }
+	});
 
 	// =====================================
 	// SIGNUP ==============================
 	// =====================================
 	// show the signup form
 	app.get('/sign-up', function(req, res) {
-		console.log(req.flash('signupMessage'));
+		//console.log(req.flash('signupMessage'));
+		//var temp = req.flash('signupMessage')[0];
+		//console.log(temp);
+		//console.log(req.flash('signupMessage')[0]);
 		// render the page and pass in any flash data if it exists
-		res.render('signup');
+		res.render('signup',{ message: req.flash('signupMessage')[0] });
 	});
 
 	// process the signup form

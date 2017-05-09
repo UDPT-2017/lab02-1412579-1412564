@@ -44,6 +44,12 @@ app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 app.use(flash()); // session flash message
 
+app.use(function(req,res,next){
+	res.locals = ({
+		user: req.user
+	});
+	return next();
+});
 
 // routes ======================================================================
 require('./route/routes.js')(app, passport,pool); // load our routes and pass in our app and fully configured passport
