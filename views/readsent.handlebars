@@ -1,0 +1,102 @@
+<div class="container-fluid">
+<div class="wrapper">
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Đọc email đã gửi
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Mailbox</li>
+      </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+    <div class="row">
+        <div class="col-md-3">
+          <a href="/mailbox" class="btn btn-primary btn-block margin-bottom">Trở về hộp thư đến</a>
+      {{> email-leftside}}
+        <!-- /.col -->
+        <div class="col-md-9">
+          <div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title">Đọc Email đã gửi</h3>
+
+              <div class="box-tools pull-right">
+                <a href="#" class="btn btn-box-tool" data-toggle="tooltip" title="Previous"><i class="fa fa-chevron-left"></i></a>
+                <a href="#" class="btn btn-box-tool" data-toggle="tooltip" title="Next"><i class="fa fa-chevron-right"></i></a>
+              </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body no-padding">
+              <div class="mailbox-read-info">
+                <h3>{{ email.title }}</h3>
+                <h5>To: {{ email.fullname }}
+                  <span class="mailbox-read-time pull-right">{{ email.created_at }}</span></h5>
+              </div>
+              <!-- /.mailbox-read-info -->
+              <div class="mailbox-controls with-border text-center">
+                
+                
+              </div>
+              <!-- /.mailbox-controls -->
+              <div class="mailbox-read-message">
+                <div id="read">
+                <textarea style="display:none;">{{ email.content }}</textarea>
+            </div>
+              </div>
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer">
+              
+            </div>
+            <!-- /.box-footer -->
+            <div class="box-footer">
+              <div class="pull-right">
+              </div>
+              <button type="button" class="btn btn-default"><i class="fa fa-trash-o"></i> Delete</button>
+            </div>
+            <!-- /.box-footer -->
+          </div>
+          <!-- /. box -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  <footer class="main-footer">
+    <div class="pull-right hidden-xs">
+    </div>
+    
+  </footer>
+  <!-- /.control-sidebar -->
+  <!-- Add the sidebar's background. This div must be placed
+       immediately after the control sidebar -->
+  <div class="control-sidebar-bg"></div>
+</div>
+<!-- ./wrapper -->
+</div>
+
+<script src="/js/jquery.js"></script>
+<script src="/js/editormd/editormd.min.js"></script>
+<script type="text/javascript">
+
+            var read;
+
+             $(function() {
+                read = editormd("read", {
+                    readOnly: true,
+                    width   : "100%",
+                    height  : 640,
+                    syncScrolling : "single",
+                    path    : "../lib/"
+                });
+                
+            });
+</script>

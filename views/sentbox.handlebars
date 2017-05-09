@@ -1,0 +1,116 @@
+<div class="container-fluid">
+<div class="wrapper">
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Sentbox
+        <small>{{count}} messages sent</small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Mailbox</li>
+      </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+    <div class="row">
+        <div class="col-md-3">
+          <a href="/compose" class="btn btn-primary btn-block margin-bottom">Soạn mail mới</a>
+      {{> email-leftside}}
+        <!-- /.col -->
+        <div class="col-md-9">
+          <div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title">Inbox</h3>
+
+              <div class="box-tools pull-right">
+                <div class="has-feedback">
+                  
+                </div>
+              </div>
+              <!-- /.box-tools -->
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body no-padding">
+              <div class="mailbox-controls">
+                <div class="btn-group">
+                </div>
+                <!-- /.btn-group -->
+                <button type="button" class="btn btn-default btn-sm"><i class="fa fa-refresh"></i></button>
+                <div class="pull-right">
+                  
+                </div>
+                <!-- /.pull-right -->
+              </div>
+              <div class="table-responsive mailbox-messages">
+                <table class="table table-hover table-striped">
+                  <tbody>
+                  {{#each sent}}
+                  <tr>
+                  {{#if read}}
+                    <td class="mailbox-star"><a href="#"><i class="fa fa-star-o text-yellow"></i></a></td>
+                  {{else}}
+                    <td class="mailbox-star"><a href="#"><i class="fa fa-star text-yellow"></i></a></td>
+                  {{/if}}
+                    <td class="mailbox-name"><a href="/readsent/{{id}}">Người nhận: {{ fullname }}</a></td>
+                    <td class="mailbox-subject"><b>{{ title }}</b></td>
+                    <td class="mailbox-attachment">
+                    {{#if read}}
+                        <b>Đã đọc: {{ read_time }}</b>
+                    {{else}}                    
+                        <b>Người nhận chưa đọc thư</b>
+                    {{/if}}
+                    </td>
+                    <td class="mailbox-date">
+                    Đã gửi 
+                    <time datetime="{{ created_at }}" pubdate>
+                      {{ created_at }}
+                  </time>
+                  </td>
+                  </tr>
+                  {{/each}}
+                  </tbody>
+                </table>
+                <!-- /.table -->
+              </div>
+              <!-- /.mail-box-messages -->
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer no-padding">
+              <div class="mailbox-controls">
+                <div class="btn-group">
+                </div>
+                <!-- /.btn-group -->
+                <button type="button" class="btn btn-default btn-sm"><i class="fa fa-refresh"></i></button>
+                <div class="pull-right">
+                  
+                </div>
+                <!-- /.pull-right -->
+              </div>
+            </div>
+          </div>
+          <!-- /. box -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  <footer class="main-footer">
+
+    
+  </footer>
+
+  <!-- Control Sidebar -->
+  <!-- Add the sidebar's background. This div must be placed
+       immediately after the control sidebar -->
+  <div class="control-sidebar-bg"></div>
+</div>
+<!-- ./wrapper -->
+
+</div>
+

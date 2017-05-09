@@ -32,7 +32,7 @@ module.exports = function(passport,pool) {
         process.nextTick(function() {
 
             // find the user in the database based on their facebook id
-            pool.query("SELECT * FROM user_facebook WHERE idfb = '"+ profile.id+"'", function(err, user) {
+            pool.query("SELECT * FROM user_facebook, users WHERE users.id = user_facebook.id and idfb = '"+ profile.id+"'", function(err, user) {
 
                 // if there is an error, stop everything and return that
                 // ie an error connecting to the database

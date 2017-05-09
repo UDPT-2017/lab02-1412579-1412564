@@ -5,7 +5,7 @@
     <section class="content-header">
       <h1>
         Mailbox
-        <small>13 new messages</small>
+        <small>{{countMailAll}} messages received</small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -17,7 +17,7 @@
     <section class="content">
     <div class="row">
         <div class="col-md-3">
-          <a href="mailbox.html" class="btn btn-primary btn-block margin-bottom">Soạn mail mới</a>
+          <a href="/compose" class="btn btn-primary btn-block margin-bottom">Soạn mail mới</a>
       {{> email-leftside}}
         <!-- /.col -->
         <div class="col-md-9">
@@ -27,8 +27,7 @@
 
               <div class="box-tools pull-right">
                 <div class="has-feedback">
-                  <input type="text" class="form-control input-sm" placeholder="Search Mail">
-                  <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                  
                 </div>
               </div>
               <!-- /.box-tools -->
@@ -37,41 +36,34 @@
             <div class="box-body no-padding">
               <div class="mailbox-controls">
                 <div class="btn-group">
-                  <button type="button" class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
-                  <button type="button" class="btn btn-default btn-sm"><i class="fa fa-reply"></i></button>
-                  <button type="button" class="btn btn-default btn-sm"><i class="fa fa-share"></i></button>
                 </div>
                 <!-- /.btn-group -->
                 <button type="button" class="btn btn-default btn-sm"><i class="fa fa-refresh"></i></button>
                 <div class="pull-right">
-                  1-50/200
-                  <div class="btn-group">
-                    <button type="button" class="btn btn-default btn-sm"><i class="fa fa-chevron-left"></i></button>
-                    <button type="button" class="btn btn-default btn-sm"><i class="fa fa-chevron-right"></i></button>
-                  </div>
-                  <!-- /.btn-group -->
+                  
                 </div>
                 <!-- /.pull-right -->
               </div>
               <div class="table-responsive mailbox-messages">
                 <table class="table table-hover table-striped">
                   <tbody>
+                  {{#each received}}
                   <tr>
-                    <td class="mailbox-star"><a href="#"><i class="fa fa-star text-yellow"></i></a></td>
-                    <td class="mailbox-name"><a href="read-mail.html">Alexander Pierce</a></td>
-                    <td class="mailbox-subject"><b>AdminLTE 2.0 Issue</b> - Trying to find a solution to this problem...
-                    </td>
-                    <td class="mailbox-attachment"><i class="fa fa-paperclip"></i></td>
-                    <td class="mailbox-date">15 days ago</td>
-                  </tr>
-                  <tr>
+                  {{#if read}}
                     <td class="mailbox-star"><a href="#"><i class="fa fa-star-o text-yellow"></i></a></td>
-                    <td class="mailbox-name"><a href="read-mail.html">Alexander Pierce</a></td>
-                    <td class="mailbox-subject"><b>AdminLTE 2.0 Issue</b> - Trying to find a solution to this problem...
-                    </td>
-                    <td class="mailbox-attachment"><i class="fa fa-paperclip"></i></td>
-                    <td class="mailbox-date">15 days ago</td>
+                  {{else}}
+                    <td class="mailbox-star"><a href="#"><i class="fa fa-star text-yellow"></i></a></td>
+                  {{/if}}
+                    <td class="mailbox-name"><a href="/read/{{id}}">Người gửi: {{ fullname }}</a></td>
+                    <td class="mailbox-subject"><b>{{ title }}</b></td>
+                    <td class="mailbox-date">
+                    Đã nhận 
+                    <time datetime="{{ created_at }}" pubdate>
+                      {{ created_at }}
+                  </time>
+                  </td>
                   </tr>
+                  {{/each}}
                   </tbody>
                 </table>
                 <!-- /.table -->
@@ -82,19 +74,11 @@
             <div class="box-footer no-padding">
               <div class="mailbox-controls">
                 <div class="btn-group">
-                  <button type="button" class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
-                  <button type="button" class="btn btn-default btn-sm"><i class="fa fa-reply"></i></button>
-                  <button type="button" class="btn btn-default btn-sm"><i class="fa fa-share"></i></button>
                 </div>
                 <!-- /.btn-group -->
                 <button type="button" class="btn btn-default btn-sm"><i class="fa fa-refresh"></i></button>
                 <div class="pull-right">
-                  1-50/200
-                  <div class="btn-group">
-                    <button type="button" class="btn btn-default btn-sm"><i class="fa fa-chevron-left"></i></button>
-                    <button type="button" class="btn btn-default btn-sm"><i class="fa fa-chevron-right"></i></button>
-                  </div>
-                  <!-- /.btn-group -->
+                  
                 </div>
                 <!-- /.pull-right -->
               </div>

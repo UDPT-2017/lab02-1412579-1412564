@@ -18,10 +18,11 @@
     <link href="/css/landing-page.css" rel="stylesheet">
     <link href="/css/style.css" rel="stylesheet" type="text/css" media="all"/>
     <!-- Custom Fonts -->
-    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="/js/editormd/editormd.min.css">
     <link rel="stylesheet" href="/js/select2/select2.min.css">
+    <link rel="stylesheet" href="/js/sweetalert/sweetalert.css">
     <link rel="stylesheet" href="/css/AdminLTE.min.css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -90,20 +91,64 @@
     <script src="/js/app.min.js"></script>
 <script src="/js/editormd/editormd.min.js"></script>
 <script src="/js/select2/select2.min.js"></script>
+<script src="/js/sweetalert/sweetalert.min.js"></script>
+<script src="/js/moment.min.js"></script>
+
 <!-- Page Script -->
 
+{{#if sentEmail}}
 
+<script type="text/javascript">
+    swal({
+        title: "Thành công!",
+        text: "Bạn đã gửi email thành công!",
+        type: "success",
+        confirmButtonColor: "#05bc05",
+        confirmButtonText: "Oke",
+        closeOnConfirm: true,
+    });
+    </script>
+
+{{/if}}
 
 
 <script type="text/javascript">
 $(document).ready(function() {
-  $(".select2").select2();
+    $(".select2").select2();
 
+    $('div.alert').delay(5000).slideUp();
 
- $('div.alert').delay(5000).slideUp();
+    var now = moment();
+    moment.updateLocale('en',{
+        relativeTime : {
+            future: "trong %s",
+            past:   "%s trước",
+            s:  "vài giây",
+            m:  "một phút",
+            mm: "%d phút",
+            h:  "một giờ",
+            hh: "%d giờ",
+            d:  "một ngày",
+            dd: "%d ngày",
+            M:  "một tháng",
+            MM: "%d tháng",
+            y:  "một năm",
+            yy: "%d năm"
+        }
+    });
+
+    $('time').each(function(i, e) {
+        var time = moment($(e).attr('datetime'));
+
+        if(now.diff(time, 'days') <= 1) {
+            $(e).html('<span>' + time.from(now) + '</span>');
+        }
+    });
 
 });
 </script>
+</script>
+
 </body>
 
 </html>

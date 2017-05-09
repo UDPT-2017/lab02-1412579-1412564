@@ -1,4 +1,5 @@
 <div class="container-fluid">
+<form action="/compose" method="POST">
 <div class="wrapper">
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
@@ -17,7 +18,7 @@
     <section class="content">
     <div class="row">
         <div class="col-md-3">
-          <a href="mailbox.html" class="btn btn-primary btn-block margin-bottom">Trở về hộp thư đến</a>
+          <a href="/mailbox" class="btn btn-primary btn-block margin-bottom">Trở về hộp thư đến</a>
       {{> email-leftside}}
 
 
@@ -32,17 +33,15 @@
             <div class="box-body">
               <div class="form-group">
                 <label>Người nhận: </label>
-                  <select class="form-control select2">
-                    <option>option 1</option>
-                    <option>option 2</option>
-                    <option>option 3</option>
-                    <option>option 4</option>
-                    <option>option 5</option>
+                  <select name="receive_id" class="form-control select2">
+                  {{#each friend_list}}
+                    <option value="{{friend_id}}">{{ fullname }} - {{ email }}</option>
+                  {{/each}}
                   </select>
                 </div>
                 <div class="form-group">
                 <label>Tên subject: </label>
-                <input class="form-control" placeholder="To:" required />
+                <input name="sbjName" class="form-control" placeholder="To:" required />
               </div>
               </div>
               <div class="form-group" >
@@ -50,8 +49,9 @@
                 <button class="btn btn-success" id="watch-btn">Bật chế độ live view</button>
                 <button class="btn btn-danger" id="unwatch-btn">Tắt chế độ live view</button>
              </div>
+
               <div id="compose">
-                <textarea style="display:none;">[TOC]
+                <textarea name="content" style="display:none;">[TOC]
 
 #### Disabled options
 
@@ -121,6 +121,7 @@
   <div class="control-sidebar-bg"></div>
 </div>
 <!-- ./wrapper -->
+</form>
 </div>
 
 <script src="/js/jquery.js"></script>
@@ -140,11 +141,13 @@
             });
 
 
-             $("#watch-btn").click(function(){
+             $("#watch-btn").click(function(e){
                     compose.watch();
+                    e.preventDefault()
                 });
                 
-                $("#unwatch-btn").click(function(){
+                $("#unwatch-btn").click(function(e){
                     compose.unwatch();
+                    e.preventDefault()
                 });
 </script>
