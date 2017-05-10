@@ -60,7 +60,7 @@
                 <ul class="nav navbar-nav navbar-right">
                 {{#if user}}
                     <li>
-                        <a href="/mailbox/{{ user.id }}"><i class="fa fa-inbox fa-fw"></i> Mailbox</a>
+                        <a href="/mailbox"><i class="fa fa-inbox fa-fw"></i> Mailbox</a>
                     </li>
                 {{/if}}
                     <li>
@@ -123,6 +123,7 @@
 $(document).ready(function() {
     $(".select2").select2();
     $(".alert-rf").hide();
+    $(".alert-loadmore").hide();
     $(".auto-alert-rf").hide();
     $("#success").hide();
     $('div.alert').delay(5000).slideUp();
@@ -157,12 +158,12 @@ $(document).ready(function() {
         var url = 'http://localhost:3000/api-mailbox'; 
         var id = '{{user.id}}';
         //alert(id);
-
+        var page = $("#currentPage").val();
         $.ajax({
             url: url,
             type: 'GET',
             cache: false,
-            data:{id:id},
+            data:{id:id,page:page},
             success: function (data){
                 if(data){
                     var jsonObj = $.parseJSON(data);
@@ -188,18 +189,97 @@ $(document).ready(function() {
         });
     });
 
+    $("#loadmore").on('click',function(){
+        var url = 'http://localhost:3000/api-mailbox'; 
+        var id = '{{user.id}}';
+        //alert(id);
+        var page = $("#currentPage").val();
+        page = parseInt(page) + 1;
+        $("#currentPage").val(page);
+        $.ajax({
+            url: url,
+            type: 'GET',
+            cache: false,
+            data:{id:id,page:page},
+            success: function (data){
+                if(data){
+                    var jsonObj = $.parseJSON(data);
+                    $('#emptyMailbox').empty();
+                    $.each(jsonObj, function(index,val){
+                        var read = val.read == 1 ? '<td class="mailbox-star"><a href="#"><i class="fa fa-star-o text-yellow"></i></a></td>' : '<td class="mailbox-star"><a href="#"><i class="fa fa-star text-yellow"></i></a></td>';
+                        var STT = parseInt(index) + 1;
+                        var append = '<tr><td>'+ STT +'</td>' + read + '<td class="mailbox-name"><a href="/read/'+ val.id +'">Người gửi: '+val.fullname+'</a></td> <td class="mailbox-subject"><b>'+val.title+'</b></td> <td class="mailbox-date">Đã nhận <time datetime="'+ val.created_at +'" pubdate> '+ val.created_at +' </time></td> </tr>';
+                        $('#emptyMailbox').append(append);
+                        $(".alert-loadmore").show();
+                        setTimeout(function() { $(".alert-loadmore").slideUp(); }, 3000);
+                    });
+                    $('time').each(function(i, e) {
+                        var time = moment($(e).attr('datetime'));
+
+                        if(now.diff(time, 'days') <= 1) {
+                            $(e).html('<span>' + time.from(now) + '</span>');
+                        }
+                    });
+                }
+                else alert('Ajax không thành công!');
+             }
+        });
+    });
+
+    $(window).scroll(function() {
+        if(($(window).scrollTop() + $(window).height() > $(document).height()-50) && window.location.href.indexOf("mailbox") > -1) {
+   
+            var url = 'http://localhost:3000/api-mailbox'; 
+            var id = '{{user.id}}';
+            //alert(id);
+            var page = $("#currentPage").val();
+            page = parseInt(page) + 1;
+            $("#currentPage").val(page);
+            $.ajax({
+                url: url,
+                type: 'GET',
+                cache: false,
+                data:{id:id,page:page},
+                success: function (data){
+                    if(data){
+                        var jsonObj = $.parseJSON(data);
+                        $('#emptyMailbox').empty();
+                        $.each(jsonObj, function(index,val){
+                            var read = val.read == 1 ? '<td class="mailbox-star"><a href="#"><i class="fa fa-star-o text-yellow"></i></a></td>' : '<td class="mailbox-star"><a href="#"><i class="fa fa-star text-yellow"></i></a></td>';
+                            var STT = parseInt(index) + 1;
+                            var append = '<tr><td>'+ STT +'</td>' + read + '<td class="mailbox-name"><a href="/read/'+ val.id +'">Người gửi: '+val.fullname+'</a></td> <td class="mailbox-subject"><b>'+val.title+'</b></td> <td class="mailbox-date">Đã nhận <time datetime="'+ val.created_at +'" pubdate> '+ val.created_at +' </time></td> </tr>';
+                            $('#emptyMailbox').append(append);
+                            $(".alert-loadmore").show();
+                            setTimeout(function() { $(".alert-loadmore").slideUp(); }, 3000);
+                        });
+                        $('time').each(function(i, e) {
+                            var time = moment($(e).attr('datetime'));
+
+                            if(now.diff(time, 'days') <= 1) {
+                                $(e).html('<span>' + time.from(now) + '</span>');
+                            }
+                        });
+                    }
+                    else alert('Ajax không thành công!');
+                 }
+            });
+     
+            
+        }
+    });
+
 
     setInterval( function(){ 
         if(window.location.href.indexOf("mailbox") > -1) {
             var url = 'http://localhost:3000/api-mailbox'; 
             var id = '{{user.id}}';
             //alert(id);
-
+            var page = $("#currentPage").val();
             $.ajax({
                 url: url,
                 type: 'GET',
                 cache: false,
-                data:{id:id},
+                data:{id:id,page:page},
                 success: function (data){
                     if(data){
                         var jsonObj = $.parseJSON(data);

@@ -22,9 +22,9 @@ module.exports = function(app, passport,pool) {
 
 	var momentNow = moment();
 	var formatted = momentNow.format('YYYY-MM-DD HH:mm:ss');
-
+	var FBMessenger = require('fb-messenger')
+	
 	app.get('/', function(req, res) {
-		
 		console.log(formatted);
 		res.render('index'); // load the index.ejs file
 	});
@@ -33,7 +33,7 @@ module.exports = function(app, passport,pool) {
 		pool.connect(function (err) {
 		  if (err) return console.log(err);
 			  // execute a query on our database
-			pool.query('select mailbox.id, title, content, read, created_at, read_time, fullname from mailbox,users where user_receive = '+ req.user.id +'and users.id = mailbox.user_send order by mailbox.id desc', function (err, result) {
+			pool.query('select mailbox.id, title, content, read, created_at, read_time, fullname from mailbox,users where user_receive = '+ req.user.id +'and users.id = mailbox.user_send order by mailbox.id desc OFFSET 0 LIMIT 10', function (err, result) {
 			    if (err) {
 			    	res.end();
 			    	return console.log(err);
@@ -82,10 +82,11 @@ module.exports = function(app, passport,pool) {
 
 	app.get('/api-mailbox', isLoggedIn, function(req, res) {
 		if (req.xhr || req.headers.accept.indexOf('json') > -1) {
+
 			pool.connect(function (err) {
 			  if (err) return console.log(err);
 				  // execute a query on our database
-				pool.query('select mailbox.id, title, content, read, created_at, read_time, fullname from mailbox,users where user_receive = '+ req.query.id +'and users.id = mailbox.user_send order by mailbox.id desc', function (err, result) {
+				pool.query('select mailbox.id, title, content, read, created_at, read_time, fullname from mailbox,users where user_receive = '+ req.query.id +'and users.id = mailbox.user_send order by mailbox.id desc OFFSET 0 LIMIT ' + 10*req.query.page, function (err, result) {
 				    if (err) {
 				    	res.end();
 				    	return console.log(err);
@@ -101,6 +102,7 @@ module.exports = function(app, passport,pool) {
 			//console.log(req.body.id); -> for post
 		}
 	});
+
 
 	app.get('/sentbox', isLoggedIn, function(req, res) {
 		pool.connect(function (err) {
@@ -157,7 +159,7 @@ module.exports = function(app, passport,pool) {
 		pool.connect(function (err) {
 		  if (err) return console.log(err);
 			  // execute a query on our database
-			pool.query('select * from friend,users where user_id = '+ + req.user.id +' and friend_id = users.id', function (err, result) {
+			pool.query('select * from friend,users where user_id = '+ req.user.id +' and friend_id = users.id', function (err, result) {
 			    if (err) {
 			    	res.end();
 			    	return console.log(err);
@@ -196,8 +198,10 @@ module.exports = function(app, passport,pool) {
 		// console.log(req.body.receive_id);
 		// console.log(req.body.sbjName);
 		// console.log(req.body.content);
+
 		pool.connect(function (err) {
 		  if (err) return console.log(err);
+		  console.log("Compose 1");
 			  // execute a query on our database
 			var insertQuery = "insert into mailbox(title,user_send,user_receive,content,read,created_at,read_time) values('" + 
 			        req.body.sbjName  +"','"+ 
@@ -208,10 +212,12 @@ module.exports = function(app, passport,pool) {
 			        formatted +
 			        "',null)";
 			pool.query(insertQuery, function (err, result) {
+				console.log("Compose 2");
 				if (err) {
 					res.end();
 					return console.log(err);
 				}
+				console.log("Compose 3");
 				// disconnect the client
 				req.flash('sentEmail', 'Oke fine! I am Done');
 				res.redirect('/mailbox');

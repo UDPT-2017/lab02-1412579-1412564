@@ -41,6 +41,7 @@
                 <button id="refresh" type="button" class="btn btn-default btn-sm"><i class="fa fa-refresh"></i></button>
                 <div class="alert-rf" style="color: green;"><b>Đã cập nhật hộp thư thành công!</b></div>
                 <div class="auto-alert-rf" style="color: green;"><b>Đã cập nhật hộp thư cách đây 30 giây!</b></div>
+                <div class="alert-loadmore" style="color: green;"><b>Đã tải thêm thành công!</b></div>
                 <div class="pull-right">
                   
                 </div>
@@ -48,6 +49,7 @@
               </div>
               <div class="table-responsive mailbox-messages">
                 <table class="table table-hover table-striped">
+                  <input type="hidden" value="1" id="currentPage">
                   <tbody id="emptyMailbox">                  
                   {{#each received}}
                   <tr>
