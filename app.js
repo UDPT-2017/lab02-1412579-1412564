@@ -20,7 +20,14 @@ const pool = require('./model/pg');
 
 require('./config/passport')(passport,pool);
 
-var hbs = exphbs.create({ defaultLayout: 'main' });
+var hbs = exphbs.create({ defaultLayout: 'main' ,
+	helpers: {
+		inc : function(value, options)
+			{
+			    return parseInt(value) + 1;
+			}
+	}
+});
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');// set up ejs for templating
 

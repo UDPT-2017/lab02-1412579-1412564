@@ -24,7 +24,10 @@
     <link rel="stylesheet" href="/js/select2/select2.min.css">
     <link rel="stylesheet" href="/js/sweetalert/sweetalert.css">
     <link rel="stylesheet" href="/css/AdminLTE.min.css">
+    <link href="/datatables-plugins/dataTables.bootstrap.css" rel="stylesheet">
 
+        <!-- DataTables Responsive CSS -->
+    <link href="/datatables-responsive/dataTables.responsive.css" rel="stylesheet">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -94,6 +97,11 @@
 <script src="/js/sweetalert/sweetalert.min.js"></script>
 <script src="/js/moment.min.js"></script>
 
+<!-- DataTables JavaScript -->
+<script src="/datatables/js/jquery.dataTables.min.js"></script>
+<script src="/datatables-plugins/dataTables.bootstrap.min.js"></script>
+<script src="/datatables-responsive/dataTables.responsive.js"></script>
+
 <!-- Page Script -->
 
 {{#if sentEmail}}
@@ -114,9 +122,10 @@
 <script type="text/javascript">
 $(document).ready(function() {
     $(".select2").select2();
-
+    $(".alert-rf").hide();
+    $(".auto-alert-rf").hide();
+    $("#success").hide();
     $('div.alert').delay(5000).slideUp();
-
     var now = moment();
     moment.updateLocale('en',{
         relativeTime : {
@@ -160,8 +169,11 @@ $(document).ready(function() {
                     $('#emptyMailbox').empty();
                     $.each(jsonObj, function(index,val){
                         var read = val.read == 1 ? '<td class="mailbox-star"><a href="#"><i class="fa fa-star-o text-yellow"></i></a></td>' : '<td class="mailbox-star"><a href="#"><i class="fa fa-star text-yellow"></i></a></td>';
-                        var append = '<tr>' + read + '<td class="mailbox-name"><a href="/read/'+ val.id +'">Người gửi: '+val.fullname+'</a></td> <td class="mailbox-subject"><b>'+val.title+'</b></td> <td class="mailbox-date">Đã nhận <time datetime="'+ val.created_at +'" pubdate> '+ val.created_at +' </time></td> </tr>';
+                        var STT = parseInt(index) + 1;
+                        var append = '<tr><td>'+ STT +'</td>' + read + '<td class="mailbox-name"><a href="/read/'+ val.id +'">Người gửi: '+val.fullname+'</a></td> <td class="mailbox-subject"><b>'+val.title+'</b></td> <td class="mailbox-date">Đã nhận <time datetime="'+ val.created_at +'" pubdate> '+ val.created_at +' </time></td> </tr>';
                         $('#emptyMailbox').append(append);
+                        $(".alert-rf").show();
+                        setTimeout(function() { $(".alert-rf").slideUp(); }, 3000);
                     });
                     $('time').each(function(i, e) {
                         var time = moment($(e).attr('datetime'));
@@ -175,6 +187,45 @@ $(document).ready(function() {
              }
         });
     });
+
+
+    setInterval( function(){ 
+        if(window.location.href.indexOf("mailbox") > -1) {
+            var url = 'http://localhost:3000/api-mailbox'; 
+            var id = '{{user.id}}';
+            //alert(id);
+
+            $.ajax({
+                url: url,
+                type: 'GET',
+                cache: false,
+                data:{id:id},
+                success: function (data){
+                    if(data){
+                        var jsonObj = $.parseJSON(data);
+                        $('#emptyMailbox').empty();
+                        $.each(jsonObj, function(index,val){
+                            var read = val.read == 1 ? '<td class="mailbox-star"><a href="#"><i class="fa fa-star-o text-yellow"></i></a></td>' : '<td class="mailbox-star"><a href="#"><i class="fa fa-star text-yellow"></i></a></td>';
+                            var STT = parseInt(index) + 1;
+                            var append = '<tr><td>'+ STT +'</td>' + read + '<td class="mailbox-name"><a href="/read/'+ val.id +'">Người gửi: '+val.fullname+'</a></td> <td class="mailbox-subject"><b>'+val.title+'</b></td> <td class="mailbox-date">Đã nhận <time datetime="'+ val.created_at +'" pubdate> '+ val.created_at +' </time></td> </tr>';
+                            $('#emptyMailbox').append(append);
+                            $(".auto-alert-rf").show();
+                            setTimeout(function() { $(".auto-alert-rf").slideUp(); }, 3000);
+                        });
+                        $('time').each(function(i, e) {
+                            var time = moment($(e).attr('datetime'));
+
+                            if(now.diff(time, 'days') <= 1) {
+                                $(e).html('<span>' + time.from(now) + '</span>');
+                            }
+                        });
+                    }
+                    else alert('Ajax không thành công!');
+                 }
+            });
+        }
+        
+    }  , 30000 );
 });
 </script>
 </script>

@@ -38,7 +38,6 @@
                 <div class="btn-group">
                 </div>
                 <!-- /.btn-group -->
-                <button type="button" class="btn btn-default btn-sm"><i class="fa fa-refresh"></i></button>
                 <div class="pull-right">
                   
                 </div>
@@ -49,6 +48,7 @@
                   <tbody>
                   {{#each sent}}
                   <tr>
+                  <td>{{inc @index}}</td>
                   {{#if read}}
                     <td class="mailbox-star"><a href="#"><i class="fa fa-star-o text-yellow"></i></a></td>
                   {{else}}
@@ -83,7 +83,6 @@
                 <div class="btn-group">
                 </div>
                 <!-- /.btn-group -->
-                <button type="button" class="btn btn-default btn-sm"><i class="fa fa-refresh"></i></button>
                 <div class="pull-right">
                   
                 </div>

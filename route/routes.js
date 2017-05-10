@@ -90,7 +90,7 @@ module.exports = function(app, passport,pool) {
 				    	res.end();
 				    	return console.log(err);
 				    }
-
+				    console.log("Ajax reload mailbox!");
 				    res.end(JSON.stringify(result.rows));
 				});
 				
@@ -374,7 +374,7 @@ module.exports = function(app, passport,pool) {
 	// FACEBOOK ROUTES =====================
 	// =====================================
 	// route for facebook authentication and login
-	app.get('/auth/facebook', passport.authenticate('facebook', { scope : 'email' }));
+	app.get('/auth/facebook', passport.authenticate('facebook', { scope : ['email','user_friends'] }));
 
 	// handle the callback after facebook has authenticated the user
 	app.get('/auth/facebook/callback',
