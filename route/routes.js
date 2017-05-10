@@ -80,6 +80,28 @@ module.exports = function(app, passport,pool) {
 		});
 	});
 
+	app.get('/api-mailbox', isLoggedIn, function(req, res) {
+		if (req.xhr || req.headers.accept.indexOf('json') > -1) {
+			pool.connect(function (err) {
+			  if (err) return console.log(err);
+				  // execute a query on our database
+				pool.query('select mailbox.id, title, content, read, created_at, read_time, fullname from mailbox,users where user_receive = '+ req.query.id +'and users.id = mailbox.user_send order by mailbox.id desc', function (err, result) {
+				    if (err) {
+				    	res.end();
+				    	return console.log(err);
+				    }
+
+				    res.end(JSON.stringify(result.rows));
+				});
+				
+				
+				
+			});
+
+			//console.log(req.body.id); -> for post
+		}
+	});
+
 	app.get('/sentbox', isLoggedIn, function(req, res) {
 		pool.connect(function (err) {
 		  if (err) return console.log(err);

@@ -38,7 +38,7 @@
                 <div class="btn-group">
                 </div>
                 <!-- /.btn-group -->
-                <button type="button" class="btn btn-default btn-sm"><i class="fa fa-refresh"></i></button>
+                <button id="refresh" type="button" class="btn btn-default btn-sm"><i class="fa fa-refresh"></i></button>
                 <div class="pull-right">
                   
                 </div>
@@ -46,7 +46,7 @@
               </div>
               <div class="table-responsive mailbox-messages">
                 <table class="table table-hover table-striped">
-                  <tbody>
+                  <tbody id="emptyMailbox">
                   {{#each received}}
                   <tr>
                   {{#if read}}
@@ -76,7 +76,7 @@
                 <div class="btn-group">
                 </div>
                 <!-- /.btn-group -->
-                <button type="button" class="btn btn-default btn-sm"><i class="fa fa-refresh"></i></button>
+                
                 <div class="pull-right">
                   
                 </div>
