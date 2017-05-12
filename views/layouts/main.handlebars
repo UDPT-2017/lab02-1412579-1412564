@@ -227,7 +227,7 @@ $(document).ready(function() {
     });
 
     $(window).scroll(function() {
-        if(($(window).scrollTop() + $(window).height() > $(document).height()-50) && window.location.href.indexOf("mailbox") > -1) {
+        if(($(window).scrollTop() + $(window).height() > $(document).height()-20) && window.location.href.indexOf("mailbox") > -1) {
    
             var url = 'http://localhost:3000/api-mailbox'; 
             var id = '{{user.id}}';
