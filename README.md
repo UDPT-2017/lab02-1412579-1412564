@@ -6,7 +6,7 @@ Thành viên:
 * [ ] **1412579** Vũ Minh Trí (boyvmt)
 * [ ] **1412564** Trần Thuỳ Bích Trâm (bichtramtran)
 
-URL: **URL hosting của bài tập**
+URL: **http://lab02-579-564.herokuapp.com**
 
 ## Yêu cầu
 
