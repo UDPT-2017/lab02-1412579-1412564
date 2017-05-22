@@ -93,10 +93,8 @@ module.exports = function(passport,pool) {
                                 }
                             });
                         }
-                        else{
-                            console.log("Else")
-                            return done(null, user.rows[0]);
-                        }
+                        return done(null, user.rows[0]);
+                        
                     });
                  
                 } else {
