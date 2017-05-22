@@ -1,4 +1,6 @@
-//app/controller/WelcomeController.js
+//app/controller/Login.js
+var passport = require('passport');
+const pool = require('../model/pg');
 
 var LoginController = {
 	formLogin : function(req, res) {

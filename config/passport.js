@@ -10,6 +10,7 @@ var moment = require('moment');
 
 var momentNow = moment();
 var formatted = momentNow.format('YYYY-MM-DD HH:mm:ss');
+require('dotenv').config()
 module.exports = function(passport,pool) {
 
     passport.serializeUser(function(user, done) {
@@ -23,8 +24,8 @@ module.exports = function(passport,pool) {
     passport.use(new FacebookStrategy({
 
         // pull in our app id and secret from our auth.js file
-        clientID        : '310019682781511',
-        clientSecret    : '5406f26498d9c2cdb251e3dfa5c7b7c0',
+        clientID        : process.env.FB_ID,
+        clientSecret    : process.env.FB_SECRET,
         callbackURL     : 'http://localhost:3000/auth/facebook/callback',
         profileFields   : ['id', 'emails', 'name','profileUrl','photos','friends'] //get field recall
 
@@ -45,50 +46,57 @@ module.exports = function(passport,pool) {
                 if (user.rows.length > 0) {
                     facebook.getFbData(user.rows[0].token, '/me/friends', function(data){
                         var jsonObj = JSON.parse(data);
-                        //console.log(jsonObj.data[0].id);
-                        pool.query("select * from user_facebook where idfb = '" + jsonObj.data[0].id +"'", function(err, rows){
-                             console.log(1);                        
-                            if (err){
-                                return done(err);
-                            }
-                            if (rows.rows.length > 0) {
-                                console.log(2);
-                                console.log(rows.rows[0]);
-                                pool.query("select * from friend where user_id = "+ user.rows[0].id +" and friend_id = " + rows.rows[0].id , function(err, isFriend){
-                                     //console.log(rows.rows[0].password);
-                                    // console.log(bcrypt.hashSync(123456, null, null));
-                                    console.log(2.5);
-                                    //console.log(isFriend.rows.length);
-                                    if (err){
-                                        res.end();
-                                        return done(err);
-                                    }
-                                    if (isFriend.rows.length == 0) {
-                                        console.log(3);
-                                        pool.query("insert into friend(user_id,friend_id,created_at)  values("+ user.rows[0].id +"," + rows.rows[0].id + ",'"+ formatted + "')", function(err, isFriend){
-                                             //console.log(rows.rows[0].password);
-                                            // console.log(bcrypt.hashSync(123456, null, null));
-                                            
-                                            if (err){
-                                                return done(err);
-                                            }
-                                            console.log(4);
-                                            pool.query("insert into friend(user_id,friend_id,created_at)  values("+ rows.rows[0].id +"," + user.rows[0].id + ",'" + formatted + "')", function(err, isFriend){
+
+                        console.log("length: " + jsonObj.data.length);
+                        for(var i = 0;i<jsonObj.data.length;++i){
+                            pool.query("select * from user_facebook where idfb = '" + jsonObj.data[0].id +"'", function(err, rows){
+                                 console.log(1);                        
+                                if (err){
+                                    return done(err);
+                                }
+                                if (rows.rows.length > 0) {
+                                    console.log(2);
+                                    console.log(rows.rows[0]);
+                                    pool.query("select * from friend where user_id = "+ user.rows[0].id +" and friend_id = " + rows.rows[0].id , function(err, isFriend){
+                                         //console.log(rows.rows[0].password);
+                                        // console.log(bcrypt.hashSync(123456, null, null));
+                                        console.log(2.5);
+                                        //console.log(isFriend.rows.length);
+                                        if (err){
+                                            res.end();
+                                            return done(err);
+                                        }
+                                        if (isFriend.rows.length == 0) {
+                                            console.log(3);
+                                            pool.query("insert into friend(user_id,friend_id,created_at)  values("+ user.rows[0].id +"," + rows.rows[0].id + ",'"+ formatted + "')", function(err, isFriend){
                                                  //console.log(rows.rows[0].password);
                                                 // console.log(bcrypt.hashSync(123456, null, null));
-                                                console.log(5);
+                                                
                                                 if (err){
                                                     return done(err);
                                                 }
-                                                // all is well, return successful user
-                                                return done(null, user.rows[0]);
+                                                console.log(4);
+                                                pool.query("insert into friend(user_id,friend_id,created_at)  values("+ rows.rows[0].id +"," + user.rows[0].id + ",'" + formatted + "')", function(err, isFriend){
+                                                     //console.log(rows.rows[0].password);
+                                                    // console.log(bcrypt.hashSync(123456, null, null));
+                                                    console.log(5);
+                                                    if (err){
+                                                        return done(err);
+                                                    }
+                                                    // all is well, return successful user
+                                                    return done(null, user.rows[0]);
+                                                });
                                             });
-                                        });
-                                    }
-                                    return done(null, user.rows[0]);
-                                });
-                            }
-                        });
+                                        }
+                                        return done(null, user.rows[0]);
+                                    });
+                                }
+                            });
+                        }
+                        else{
+                            console.log("Else")
+                            return done(null, user.rows[0]);
+                        }
                     });
                  
                 } else {
