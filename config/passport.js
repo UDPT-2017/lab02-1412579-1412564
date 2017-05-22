@@ -26,8 +26,8 @@ module.exports = function(passport,pool) {
         // pull in our app id and secret from our auth.js file
         clientID        : process.env.FB_ID,
         clientSecret    : process.env.FB_SECRET,
-        //callbackURL     : 'http://localhost:3000/auth/facebook/callback',
-        callbackURL     : 'http://lab02-579-564.herokuapp.com/auth/facebook/callback',
+        callbackURL     : 'http://localhost:3000/auth/facebook/callback',
+        //callbackURL     : 'http://lab02-579-564.herokuapp.com/auth/facebook/callback',
         profileFields   : ['id', 'emails', 'name','profileUrl','photos','friends'] //get field recall
 
     },
@@ -48,9 +48,9 @@ module.exports = function(passport,pool) {
                     facebook.getFbData(user.rows[0].token, '/me/friends', function(data){
                         var jsonObj = JSON.parse(data);
 
-                        console.log("length: " + jsonObj.data.length);
+                        console.log(jsonObj.data);
                         for(var i = 0;i<jsonObj.data.length;++i){
-                            pool.query("select * from user_facebook where idfb = '" + jsonObj.data[0].id +"'", function(err, rows){
+                            pool.query("select * from user_facebook where idfb = '" + jsonObj.data[i].id +"'", function(err, rows){
                                  console.log(1);                        
                                 if (err){
                                     return done(err);

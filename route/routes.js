@@ -25,6 +25,13 @@ module.exports = function(app, passport,pool) {
 
 	app.get('/readsent/:id', isLoggedIn, MailController.readsent);
 
+	app.get('/user',  function(req,res){
+		res.render('user');
+	});	
+
+	app.get('/about',  function(req,res){
+		res.render('about');
+	});	
 
 	// show the login form
 	app.get('/login', Logged, LoginController.formLogin);

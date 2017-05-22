@@ -1,10 +1,10 @@
-# BT-UDPT-2 - *Name of your app*
+# BT-UDPT-2 - *Mini Mailbox*
 
-**Name of your app** là một bài tập 2 tại môn UDPT. Ứng dụng cho phép người dùng gửi tin nhắn (email) cho người dùng khác.
+**Mailbox** là một bài tập 2 tại môn UDPT. Ứng dụng cho phép người dùng gửi tin nhắn (email) cho người dùng khác.
 
 Thành viên:
 * [ ] **1412579** Vũ Minh Trí (boyvmt)
-* [ ] **MSSV2** Tên sinh viên 2 (tên tài khoản github)
+* [ ] **1412564** Trần Thuỳ Bích Trâm (bichtramtran)
 
 URL: **URL hosting của bài tập**
 
@@ -19,29 +19,29 @@ Yêu cầu **GIT**
 * [x] Sử dụng GIT theo Gitflow Workflow.
 
 Yêu cầu **bắt buộc**
-* [ ] Website layout theo kiến trúc MVC với các thành phần được tách thành nhiều module theo hướng dẫn. (**MSSV**)
-* [ ] Trang web được thiết kế sẽ bao gồm các trang: home, messages, users, about. (**MSSV**)
-* [ ] Cho phép người dùng biết họ đang ở trang nào (sử dụng breadcrumb, highlight navigation bar,...). (**MSSV**)
-* [x] Cho phép người dùng đăng ký tài khoản bằng các thông tin: email, password, name, phone.(**MSSV**) --> passport-local
-* [x] Đăng nhập bằng email và password.(**MSSV**) --> passport-local
-* [x] Sau khi đăng nhập, người dùng sẽ được chuyển đến trang liệt kê danh sách các tin nhắn đã nhận, sắp xếp theo thứ tự thời gian, một nút để tạo tin nhắn mới, nút để xem danh sách bạn bè và nút để xem các tin nhắn đã gửi.(**MSSV**)
-* [x] Tin nhắn chưa đọc phải được làm nổi bật hơn các tin nhắn khác, có ghi nhận thời gian đã cách đây bao lâu.(**MSSV**)
+* [x] Website layout theo kiến trúc MVC với các thành phần được tách thành nhiều module theo hướng dẫn. (**MSSV**)
+* [x] Trang web được thiết kế sẽ bao gồm các trang: home, messages, users, about. (**MSSV**)
+* [x] Cho phép người dùng biết họ đang ở trang nào (sử dụng breadcrumb, highlight navigation bar,...). (**MSSV**)
+* [x] Cho phép người dùng đăng ký tài khoản bằng các thông tin: email, password, name, phone.(**1412579**)
+* [x] Đăng nhập bằng email và password.(**1412579**) 
+* [x] Sau khi đăng nhập, người dùng sẽ được chuyển đến trang liệt kê danh sách các tin nhắn đã nhận, sắp xếp theo thứ tự thời gian, một nút để tạo tin nhắn mới, nút để xem danh sách bạn bè và nút để xem các tin nhắn đã gửi.(**1412579**)
+* [x] Tin nhắn chưa đọc phải được làm nổi bật hơn các tin nhắn khác, có ghi nhận thời gian đã cách đây bao lâu.(**1412579**)
 * [ ] Trang users cho phép xem danh sách người dùng có trong hệ thống và phải có nút "add" với những người dùng chưa là bạn để thêm vào danh sách bạn bè.(**MSSV**)
 * [ ] Trang about thể hiện thông tin nhóm thực hiện đề tài.(**MSSV**)
-* [x] Nhấn nút "new message" sẽ chuyển sang giao diện cho phép người dùng gửi tin nhắn cho người dùng trong danh sách bạn bè. Người gửi phải nằm trong danh sách bạn bè và cho phép người dùng chọn qua combobox.(**MSSV**)
-* [x] Nhấn "sent" sẽ chuyển sang giao diện hiển thị danh sách tin nhắn đã gửi. Mỗi tin nhắn cần hiện thời gian người nhận đã đọc.(**MSSV**)
-* [x] Nhấn "refresh" để cập nhật danh sách tin nhắn mới nhất (ko nạp lại dữ liệu trên trang).(**MSSV**) --> Ajax
-* [x] Cho phép người dùng layout tin nhắn bằng markdown. (**MSSV**) 
+* [x] Nhấn nút "new message" sẽ chuyển sang giao diện cho phép người dùng gửi tin nhắn cho người dùng trong danh sách bạn bè. Người gửi phải nằm trong danh sách bạn bè và cho phép người dùng chọn qua combobox.(**1412579**)
+* [x] Nhấn "sent" sẽ chuyển sang giao diện hiển thị danh sách tin nhắn đã gửi. Mỗi tin nhắn cần hiện thời gian người nhận đã đọc.(**1412579**)
+* [x] Nhấn "refresh" để cập nhật danh sách tin nhắn mới nhất (ko nạp lại dữ liệu trên trang).(**1412579**) 
+* [x] Cho phép người dùng layout tin nhắn bằng markdown. (**1412579**) 
 
 Yêu cầu **không bắt buộc**:
-* [ ] Chuyển nút "add" thành nút "remove" sau khi thêm bạn thành công.(**MSSV**) --> Xử lý trong controller, check xem thằng này có trong danh sách bạn chưa, nếu có --> remove, nếu chưa --> Add. (tốt nhất sử dụng Ajax)
-* [x] Tự động refresh lại danh sách tin nhắn đã nhận sau 1 khoảng thời gian nhất định và có hiển thị đã refresh danh sách tin nhắn cách đây bao lâu.(**MSSV**) --> Ajax sml
-* [x] Cuối danh sách tin nhắn sẽ có "load more" để nạp thêm 10 tin nhắn tiếp theo.(**MSSV**) --> Load more with Ajax
-* [x] Khi người dùng kéo đến cuối danh sách sẽ tự động nạp thêm 10 tin nhắn tiếp theo.(**MSSV**) --> Infinity Scroll with Ajax
+* [ ] Chuyển nút "add" thành nút "remove" sau khi thêm bạn thành công.(**MSSV**)
+* [x] Tự động refresh lại danh sách tin nhắn đã nhận sau 1 khoảng thời gian nhất định và có hiển thị đã refresh danh sách tin nhắn cách đây bao lâu.(**1412579**) 
+* [x] Cuối danh sách tin nhắn sẽ có "load more" để nạp thêm 10 tin nhắn tiếp theo.(**1412579**) 
+* [x] Khi người dùng kéo đến cuối danh sách sẽ tự động nạp thêm 10 tin nhắn tiếp theo.(**1412579**)
 * [ ] Cho phép gửi email nội dung tin nhắn cho người dùng không nằm trong hệ thống.(**MSSV**)
-* [x] Cho phép người dùng đăng nhập bằng tài khoản facebook và lấy ảnh đại diện, email từ facebook. (**MSSV**) --> passport-facebook
-* [ ] Cho phép gửi tin nhắn đến người dùng facebook.(**MSSV**) --> Gửi messenger hay là gửi gì?
-* [x] Nạp danh sách bạn bè từ facebook khi người dùng đăng nhập bằng facebook.(**MSSV**) 
+* [x] Cho phép người dùng đăng nhập bằng tài khoản facebook và lấy ảnh đại diện, email từ facebook. (**1412579**) 
+* [ ] Cho phép gửi tin nhắn đến người dùng facebook.(**MSSV**) 
+* [x] Nạp danh sách bạn bè từ facebook khi người dùng đăng nhập bằng facebook.(**1412579**) 
 * [ ] Quản lý các thay đổi trong cơ sở dữ liệu (sử dụng [db-migrate](https://www.npmjs.com/package/db-migrate))(**MSSV**)
 
 Liệt kê các **yêu cầu nâng cao** đã thực hiện:
@@ -52,9 +52,11 @@ Liệt kê các **yêu cầu nâng cao** đã thực hiện:
 
 Link ảnh GIF demo ứng dụng:
 
-![Video Walkthrough](demo.gif)
+[![Demo Lab01 - 1412579 - 1412564 - 1412551](https://img.youtube.com/vi/cwuP28xAOck/0.jpg)](https://www.youtube.com/watch?v=cwuP28xAOck)
 
-Tạo ảnh GIF với chương trình [LiceCap](http://www.cockos.com/licecap/).
+Phần User và About
+
+![](/1412564.gif)
 
 
 ## License
