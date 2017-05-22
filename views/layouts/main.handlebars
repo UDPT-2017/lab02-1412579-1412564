@@ -155,7 +155,7 @@ $(document).ready(function() {
     });
 
     $("#refresh").on('click',function(){
-        var url = 'http://localhost:3000/api-mailbox'; 
+        var url = 'http://lab02-579-564.herokuapp.com/api-mailbox'; 
         var id = '{{user.id}}';
         //alert(id);
         var page = $("#currentPage").val();
@@ -190,7 +190,7 @@ $(document).ready(function() {
     });
 
     $("#loadmore").on('click',function(){
-        var url = 'http://localhost:3000/api-mailbox'; 
+        var url = 'http://lab02-579-564.herokuapp.com/api-mailbox'; 
         var id = '{{user.id}}';
         //alert(id);
         var page = $("#currentPage").val();
@@ -229,7 +229,7 @@ $(document).ready(function() {
     $(window).scroll(function() {
         if(($(window).scrollTop() + $(window).height() > $(document).height()-20) && window.location.href.indexOf("mailbox") > -1) {
    
-            var url = 'http://localhost:3000/api-mailbox'; 
+            var url = 'http://lab02-579-564.herokuapp.com/api-mailbox'; 
             var id = '{{user.id}}';
             //alert(id);
             var page = $("#currentPage").val();
@@ -271,7 +271,7 @@ $(document).ready(function() {
 
     setInterval( function(){ 
         if(window.location.href.indexOf("mailbox") > -1) {
-            var url = 'http://localhost:3000/api-mailbox'; 
+            var url = 'http://lab02-579-564.herokuapp.com/api-mailbox'; 
             var id = '{{user.id}}';
             //alert(id);
             var page = $("#currentPage").val();
